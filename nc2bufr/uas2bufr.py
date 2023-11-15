@@ -53,29 +53,24 @@ def get_var_or_nan(obj, var_name, postprocess_func=None):
             return postprocess_func(value)
         return value
     except KeyError:
+        print(f"Warning: {var_name} not found in dataset")
         return np.nan
-        
-def rangeValues(scale, reference, width):
 
-    valueMax= (pow(2,width) -2 + reference)*(pow(10,-scale))
-    valueMin= reference * (pow(10,-scale))
+def check_missing_double(uas2Dict_read, variable_name):
+    try:
+        # Attempt to access the data for the specified variable
+        return uas2Dict_read[variable_name][:]
+    except Exception as e:
+        # If an error occurs, return the specified code
+        return CODES_MISSING_DOUBLE 
 
-    return valueMax, valueMin 
-
-def validate_units(nc_dataset, required_units):
-    """
-    Validates the units of the data in a NetCDF dataset against the required units.
-    
-    :param nc_dataset: A NetCDF dataset object.
-    :param required_units: Dictionary specifying the required units for each data variable.
-    :return: None, prints warnings for mismatched units.
-    """
-    for key, expected_units in required_units.items():
-        if key in nc_dataset.variables:
-            actual_units = getattr(nc_dataset.variables[key], 'units', None)
-            if actual_units != expected_units:
-                print(f"Warning: Units for {key} are not as expected. Expected {expected_units}, got {actual_units}")
-
+def check_missing_long(uas2Dict_read, variable_name):
+    try:
+        # Attempt to access the data for the specified variable
+        return uas2Dict_read[variable_name][:]
+    except Exception as e:
+        # If an error occurs, return the specified code
+        return CODES_MISSING_LONG
 
 def read_netcdf(nc_filename):
 
@@ -89,8 +84,8 @@ def read_netcdf(nc_filename):
     uas2Dict={}
 
     uas2Dict['platform_name'] = get_attr_or_nan(uas, 'platform_name', lambda x: x.replace("-", ""))
-    uas2Dict['numSubsets'] = uas.dimensions.get('obs', np.nan).size if 'obs' in uas.dimensions else np.nan
     uas2Dict['time'] = get_var_or_nan(uas, 'time')
+    uas2Dict['numSubsets'] = len(uas2Dict['time'])
     uas2Dict['longitude'] = get_var_or_nan(uas, 'longitude')
     uas2Dict['latitude'] = get_var_or_nan(uas, 'latitude')
     uas2Dict['airTemperature'] = get_var_or_nan(uas, 'airTemperature')
@@ -105,7 +100,7 @@ def read_netcdf(nc_filename):
     uas2Dict['nonCoordinateGeopotential'] = get_var_or_nan(uas, 'nonCoordinateGeopotential')
     uas2Dict['meanTurbulenceIntensityEddyDissipationRate'] = get_var_or_nan(uas, 'meanTurbulenceIntensityEddyDissipationRate')
     uas2Dict['turbulentKineticEnergy'] = get_var_or_nan(uas, 'turbulentKineticEnergy')
-    
+
     ## The product time is in units
     units_time=getattr(uas.variables['time'], 'units')
     mytime = units_time.split(" ")
@@ -131,11 +126,7 @@ def read_netcdf(nc_filename):
 
 def uas2bufr(nc_filename):
 
-    try:
-        uas2Dict_read=read_netcdf(nc_filename)
-    except: 
-        print('Failed to parse provided netCDF file')
-    
+    uas2Dict_read=read_netcdf(nc_filename)
     # UASDC_operatorID_airframeID_processingLevel_YYYYMMDDHHMMSSZ.nc
     operatorID = nc_filename.split('_')[1]
     airframeID = nc_filename.split('_')[2]
@@ -164,8 +155,6 @@ def uas2bufr(nc_filename):
         fbufrout = open(output_filename, 'wb')
 
         ibufr=codes_bufr_new_from_samples('BUFR4')
-
-
         codes_set(ibufr, 'masterTableNumber', 0)
         codes_set(ibufr, 'bufrHeaderSubCentre', 0)
         codes_set(ibufr, 'bufrHeaderCentre', 98)
@@ -181,7 +170,7 @@ def uas2bufr(nc_filename):
         codes_set(ibufr, 'typicalHour',int(hour[0]))
         codes_set(ibufr, 'typicalMinute',int(minute[0]))
         codes_set(ibufr, 'typicalSecond',int(second[0]))
-    
+
         codes_set(ibufr, 'observedData', 1)
 
         codes_set(ibufr, 'numberOfSubsets', uas2Dict_read['numSubsets'])
@@ -201,9 +190,8 @@ def uas2bufr(nc_filename):
         codes_set(ibufr, 'wigosIssuerOfIdentifier', CODES_MISSING_LONG)
         codes_set(ibufr, 'wigosIssueNumber', CODES_MISSING_LONG)
         codes_set(ibufr, 'wigosLocalIdentifierCharacter','')
-        codes_set(ibufr, 'aircraftRegistrationNumberOrOtherIdentification',uas2Dict_read['platform_name'])
+        #codes_set(ibufr, 'aircraftRegistrationNumberOrOtherIdentification',check_missing_long(uas2Dict_read,'platform_name'))
         codes_set(ibufr, 'observerIdentification','')
-
         codes_set_array(ibufr, 'year', year)
         codes_set_array(ibufr, 'month', month)
         codes_set_array(ibufr, 'day', day)
@@ -216,26 +204,26 @@ def uas2bufr(nc_filename):
         codes_set(ibufr, 'detailedPhaseOfFlight', CODES_MISSING_LONG)
         codes_set(ibufr, 'qualityInformation', CODES_MISSING_LONG)
         codes_set_array(ibufr, 'height', uas2Dict_read['height'][:])
-        codes_set_array(ibufr, 'windDirection', uas2Dict_read['windDirection'][:])
-        codes_set_array(ibufr, 'windSpeed', uas2Dict_read['windSpeed'][:])
-        codes_set_array(ibufr, 'airTemperature', uas2Dict_read['airTemperature'][:])
+        codes_set_array(ibufr, 'windDirection', check_missing_double(uas2Dict_read,'windDirection'))
+        codes_set_array(ibufr, 'windSpeed', check_missing_double(uas2Dict_read,'windSpeed'))
+        codes_set_array(ibufr, 'airTemperature', check_missing_double(uas2Dict_read,'airTemperature'))
         codes_set(ibufr, 'aircraftHumiditySensors', CODES_MISSING_LONG)
-        codes_set_array(ibufr, 'relativeHumidity', uas2Dict_read['relativeHumidity'][:])
-        codes_set_array(ibufr, 'mixingRatio', uas2Dict_read['mixingRatio'][:])
-        codes_set(ibufr, 'turbulentKineticEnergy', CODES_MISSING_DOUBLE)
-        codes_set(ibufr, 'meanTurbulenceIntensityEddyDissipationRate', CODES_MISSING_DOUBLE)
-        codes_set_array(ibufr, 'geopotentialHeight', uas2Dict_read['geopotentialHeight'][:])
-        codes_set_array(ibufr, 'dewpointTemperature', uas2Dict_read['dewpointTemperature'][:])
-        codes_set_array(ibufr, 'pressure', uas2Dict_read['pressure'][:])
-        codes_set_array(ibufr, 'nonCoordinateGeopotential', uas2Dict_read['nonCoordinateGeopotential'][:])
+        codes_set_array(ibufr, 'relativeHumidity', check_missing_double(uas2Dict_read,'relativeHumidity'))
+        codes_set_array(ibufr, 'mixingRatio', check_missing_double(uas2Dict_read,'mixingRatio'))
+        codes_set(ibufr, 'turbulentKineticEnergy', check_missing_double(uas2Dict_read,'turbulentKineticEnergy'))
+        codes_set(ibufr, 'meanTurbulenceIntensityEddyDissipationRate', check_missing_double(uas2Dict_read,'meanTurbulenceIntensityEddyDissipationRate'))
+        codes_set_array(ibufr, 'geopotentialHeight', check_missing_double(uas2Dict_read,'geopotentialHeight'))
+        codes_set_array(ibufr, 'dewpointTemperature', check_missing_double(uas2Dict_read,'dewpointTemperature'))
+        codes_set_array(ibufr, 'pressure', check_missing_double(uas2Dict_read,'pressure'))
+        codes_set_array(ibufr, 'nonCoordinateGeopotential', check_missing_double(uas2Dict_read,'nonCoordinateGeopotential'))
 
         codes_set(ibufr, 'pack', 1)
         codes_write(ibufr, fbufrout)
 
         codes_release(ibufr)
         fbufrout.close()
-    except:
-        print('Failed to convert provided netCDF file to BUFR')
+    except Exception as e:
+        print(f'Failed to convert provided netCDF file to BUFR: {e}')
 
 
 def main():

@@ -23,8 +23,8 @@ It's imperitive that each provider contains netCDF files with correct structure,
 Below are the variables that will be converted to BUFR. Please ensure the variable names and units match the table below. If you do not have all of these variables in your raw data, that is OK, the program will still run without them. 
 
 | Long Name                                          | Required Variable Name                               | Required Units        |
-|----------------------------------------------------|------------------------------------------------------|---------------------  |
-| Time                                               | `time`                                               | ISO 8601 format       | 
+|----------------------------------------------------|------------------------------------------------------|-----------------------|
+| Time                                               | `time`                                               | Seconds since EPOCH   | 
 | Latitude                                           | `latitude`                                           | degrees (-90 to 90)   |
 | Longitude                                          | `longitude`                                          | degrees (-180 to 180) |
 | Height (Altitude)                                  | `height`                                             | Meters                |
