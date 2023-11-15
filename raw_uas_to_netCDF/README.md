@@ -48,7 +48,7 @@ An example using `pandas` and `xarray` to convert raw UAS csv data [can be found
 
 ## Environment setup
 
-There are 3 python packages required for the raw UASDC CSV to netCDF example. These packages are `xarray`, `pandas`, and `numpy`. They can be installed via `pip` or `conda`. Please also note that **we need to store time as seconds since EPOCH** (`1970-01-01T00:00:00`). This is due to the way netCDF files store time (int or float, not strings or datetime). 
+There are 3 python packages required for the raw UASDC CSV to netCDF example. These packages are `xarray`, `pandas`, and `numpy`. They can be installed via `pip` or `conda`. Please also note that **we need to store time as seconds since EPOCH** (`1970-01-01T00:00:00`). This is due to the way netCDF files store time (int or float, not strings or datetime).   
 
 # Uploading netCDF to Synoptic S3 Examples (available Feb. 2024)
 
