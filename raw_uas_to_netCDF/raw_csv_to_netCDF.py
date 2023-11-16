@@ -31,12 +31,13 @@ rename_dict = {
 # Rename the variables within this xarray dataframe based on the rename dictionary above
 ds = ds.rename(rename_dict)
 
-# Convert Time to pandas datetime for translation
+# Convert Time to pandas datetime for translation, store as separate object
 pd_time = pd.to_datetime(ds['time'])
 
 # Convert Datetime to Seconds since EPOCH - netCDF files require FLOAT values for their time variable
 ref_time = np.datetime64('1970-01-01T00:00:00')
 
+# we need to drop the time before we replace it (nuance of xarray)
 ds = ds.drop('time')
 
 # Convert time to seconds since the reference time

@@ -184,13 +184,12 @@ def uas2bufr(nc_filename):
         #unexpandedDescriptors =311013
         #codes_set(ibufr, 'unexpandedDescriptors', unexpandedDescriptors)
 
-
-
         codes_set(ibufr, 'wigosIdentifierSeries', CODES_MISSING_LONG)
         codes_set(ibufr, 'wigosIssuerOfIdentifier', CODES_MISSING_LONG)
         codes_set(ibufr, 'wigosIssueNumber', CODES_MISSING_LONG)
         codes_set(ibufr, 'wigosLocalIdentifierCharacter','')
-        #codes_set(ibufr, 'aircraftRegistrationNumberOrOtherIdentification',check_missing_long(uas2Dict_read,'platform_name'))
+        if uas2Dict_read['platform_name'] is not np.nan:
+            codes_set(ibufr, 'aircraftRegistrationNumberOrOtherIdentification',uas2Dict_read['platform_name'])
         codes_set(ibufr, 'observerIdentification','')
         codes_set_array(ibufr, 'year', year)
         codes_set_array(ibufr, 'month', month)
