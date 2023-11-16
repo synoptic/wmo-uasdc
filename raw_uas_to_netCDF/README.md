@@ -1,6 +1,6 @@
 
 # UAS netCDF Files
-It's imperitive that each provider contains netCDF files with correct structure, naming conventions, and units. An example file for the proposed format [can be found here](../nc2bufr/UASDC_operatorID_airframeID_processingLevel_20230327030016Z.nc). **Please ensure that your UASDC netCDF files have the correct filename structure, variable names, and units.**
+It's imperative that each provider contains netCDF files with correct structure, naming conventions, and units. An example file for the proposed format [can be found here](../nc2bufr/UASDC_operatorID_airframeID_processingLevel_20230327030016Z.nc). **Please ensure that your UASDC netCDF files have the correct filename structure, variable names, and units.**
 
 ## Filename Structure
 
