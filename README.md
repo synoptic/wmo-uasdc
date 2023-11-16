@@ -8,7 +8,7 @@ Synoptic Data PBC is responsible for converting UASDC Provider netCDF data to BU
 
 # [Converting Raw UAS Data to netCDF](raw_uas_to_netCDF/)
 
-**A necessary step for UASDC Data Providers is converting their unique individual files into the UASDC standardized netCDF file**. It's imperative that each netCDF file adhere's to the variable naming convention, the standard units, and the standard file naming structure. Please find the standardized information for the netCDF files [here](raw_uas_to_netCDF/). 
+**A necessary step for UASDC Data Providers is converting their unique individual files into the UASDC standardized netCDF file**. It's imperitive that each netCDF file adhere's to the variable naming convention, the standard units, and the standard file naming structure. Please find the standardized information for the netCDF files [here](raw_uas_to_netCDF/). 
 
    [Example raw UAS to netCDF Conversion Script](raw_uas_to_netCDF/raw_csv_to_netCDF.py)
 
