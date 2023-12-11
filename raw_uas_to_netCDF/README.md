@@ -20,11 +20,11 @@ It's imperative that each provider contains netCDF files with correct structure,
 
 ## Variable Names and Units
 
-Below are the variables that will be converted to BUFR. Please ensure the variable names and units match the table below. If you do not have all of these variables in your raw data, that is OK, the program will still run without them. 
+Below are the variables that will be converted to BUFR. Please ensure the variable names and units match the table below. If you do not have all of these variables in your raw data, that is OK, the program will still run without them. Note that these variable names are consistent with BUFR official variable names.
 
 | Long Name                                          | Required Variable Name                               | Required Units        |
 |----------------------------------------------------|------------------------------------------------------|-----------------------|
-| Time                                               | `time`                                               | Seconds since EPOCH   | 
+| Time                                               | `time`                                               | Seconds since EPOCH (1970-01-01T00:00:00) | 
 | Latitude                                           | `latitude`                                           | degrees (-90 to 90)   |
 | Longitude                                          | `longitude`                                          | degrees (-180 to 180) |
 | Height (Altitude)                                  | `height`                                             | Meters                |
