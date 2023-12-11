@@ -46,29 +46,29 @@ This document provides step-by-step instructions for setting up a Python environ
 4. **Installing Required Packages**
 
    With your virtual environment active, install the necessary Python packages using `pip`, the Python package installer.
-
+   
    - **ecmwflibs**: A Python interface to the ECMWF libraries.
 
      ```
-     pip install ecmwflibs
+     pip install ecmwflibs==0.5.3
      ```
 
    - **numpy**: A fundamental package for scientific computing in Python.
 
      ```
-     pip install numpy
+     pip install numpy==1.26.2
      ```
 
    - **netCDF4**: A Python interface to the netCDF C library.
 
      ```
-     pip install netCDF4
+     pip install netCDF4==1.6.5
      ```
 
    - **eccodes**: A package for decoding and encoding meteorological data formats.
 
      ```
-     pip install eccodes
+     pip install eccodes==1.6.1
      ```
 
 5. **Confirming Installation**
