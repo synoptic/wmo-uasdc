@@ -161,7 +161,7 @@ def uas2bufr(nc_filename):
         codes_set(ibufr, 'updateSequenceNumber', 0)
         codes_set(ibufr, 'dataCategory', 2)
         codes_set(ibufr, 'internationalDataSubCategory', 255)
-        codes_set(ibufr, 'masterTablesVersionNumber', 40)
+        codes_set(ibufr, 'masterTablesVersionNumber', 39)
         #codes_set(ibufr, 'masterTablesVersionNumber', 41)
         codes_set(ibufr, 'localTablesVersionNumber', 0)
         codes_set(ibufr, 'typicalYear',int(year[0]))
