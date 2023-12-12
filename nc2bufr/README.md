@@ -49,9 +49,7 @@ This document provides step-by-step instructions for setting up a Python environ
    
    - **ecmwflibs**: A Python interface to the ECMWF libraries.
 
-     ```
-     pip install ecmwflibs==0.5.3
-     ```
+     ```pip install ecmwflibs==0.5.3``` **OR** ```pip install ecmwflibs==0.5.5```
 
    - **numpy**: A fundamental package for scientific computing in Python.
 
