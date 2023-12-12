@@ -47,7 +47,7 @@ This document provides step-by-step instructions for setting up a Python environ
 
    With your virtual environment active, install the necessary Python packages using `pip`, the Python package installer.
    
-   - **ecmwflibs**: A Python interface to the ECMWF libraries.
+   - **ecmwflibs**: A Python interface to the ECMWF libraries. Note that either of these versions will work, so proceed which the successful version.
 
      ```
      pip install ecmwflibs==0.5.3
