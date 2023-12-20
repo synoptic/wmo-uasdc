@@ -1,16 +1,15 @@
 
 # UAS netCDF Files
-It's imperative that each provider contains netCDF files with correct structure, naming conventions, and units. An example file for the proposed format [can be found here](../nc2bufr/UASDC_operatorID_airframeID_processingLevel_20230327030016Z.nc). **Please ensure that your UASDC netCDF files have the correct filename structure, variable names, and units.**
+It's imperative that each provider contains netCDF files with correct structure, naming conventions, and units. An example file for the proposed format [can be found here](../nc2bufr/UASDC_operatorID_airframeID_20230327025804Z.nc). **Please ensure that your UASDC netCDF files have the correct filename structure, variable names, and units.**
 
 ## Filename Structure
 
-**UASDC_operatorID_airframeID_processingLevel_YYYYMMDDHHMMSSZ.nc**
+**UASDC_operatorID_airframeID_YYYYMMDDHHMMSSZ.nc**
 
 | Component        | Description                                                                                     |
 |------------------|-------------------------------------------------------------------------------------------------|
 | `operatorID`     | Unique ID assigned to each UAS data provider.                                                   |
 | `airframeID`     | Provider assigned ID for each airframe used for flights                                         |
-| `processingLevel`| The level of QA/QC performed on the data.                                                       |
 | `YYYY`           | Four digit year                                                                                 |
 | `MM`             | Two digit month                                                                                 |
 | `DD`             | Two digit day                                                                                   |
@@ -22,25 +21,26 @@ It's imperative that each provider contains netCDF files with correct structure,
 
 Below are the variables that will be converted to BUFR. Please ensure the variable names and units match the table below. If you do not have all of these variables in your raw data, that is OK, the program will still run without them. Note that these variable names are consistent with BUFR official variable names.
 
-| Long Name                                          | Required Variable Name                               | Required Units        |
-|----------------------------------------------------|------------------------------------------------------|-----------------------|
-| Time                                               | `time`                                               | Seconds since EPOCH (1970-01-01T00:00:00) | 
-| Latitude                                           | `latitude`                                           | degrees (-90 to 90)   |
-| Longitude                                          | `longitude`                                          | degrees (-180 to 180) |
-| Height (Altitude)                                  | `height`                                             | Meters                |
-| Air Temperature                                    | `airTemperature`                                     | Kelvin                |
-| Dewpoint Temperature                               | `dewpointTemperature`                                | Kelvin                |
-| Geopotential Height                                | `geopotentialHeight`                                 | geopotential meters   |
-| Wind Direction                                     | `windDirection`                                      | degrees               |
-| Wind Speed                                         | `windSpeed`                                          | m/s                   |
-| Relative Humidity                                  | `relativeHumidity`                                   | %                     |
-| Mixing Ratio                                       | `mixingRatio`                                        | kg/kg                 |
-| Turbulent Kinetic Energy                           | `turbulentKineticEnergy`                             | m2 s-2                |
-| Mean Turbulence Intensity Eddy Dissipation Rate    | `meanTurbulenceIntensityEddyDissipationRate`         | m2/3 s-1              |
-| Air Pressure                                       | `pressure`                                           | Pascals               |
-| Geopotential                                       | `nonCoordinateGeopotential`                          | m2 s-2                |
+| Long Name                                          | Short Name                                          | Required Variable Name                               | Required Units        |
+|----------------------------------------------------|----------------------------------------------------|------------------------------------------------------|-----------------------|
+| Time                                               | Time                                               | `time`                                               | Seconds since EPOCH (1970-01-01T00:00:00) | 
+| Latitude                                           | Latitude                                           | `lat`                                           | degrees (-90 to 90)   |
+| Longitude                                          | Longitude                                          | `lon`                                          | degrees (-180 to 180) |
+| Altitude (height)                                  | Altitude                              | `altitude`                                             | Meters                |
+| Air Temperature                                    | Air Temperature                                    | `air_temperature`                                     | Kelvin                |
+| Air Dewpoint Temperature                               | Dewpoint Temperature                               | `dew_point_temperature`                                | Kelvin                |
+| Wind Direction                                     | Wind Direction                                     | `wind_direction`                                      | degrees               |
+| Wind Speed                                         | Wind Speed                                         | `wind_speed`                                          | m/s                   |
+| Relative Humidity                                  | Relative Humidity                                  | `relative_humidity`                                   | %                     |
+| Humidity Mixing Ratio                              | Mixing Ratio                                       | `humidity_mixing_ratio`                                        | kg/kg                 |
+| Turbulent Kinetic Energy                           | Turbulent Kinetic Energy                           | `turbulent_kinetic_energy`                             | m2 s-2                |
+| Mean Turbulence Intensity Eddy Dissipation Rate    | Eddy Dissipation Rate                              | `eddy_dissipation_rate`                               | m2/3 s-1              |
+| Air Pressure                                       | Air Pressure                                       | `air_pressure`                                           | Pascals               |
+| Geopotential                                       | Geopotential                                       | `non_coordinate_geopotential`                          | m2 s-2                |
+| Geopotential Height                                | Geopotential Height                                | `geopotential_height`                                 | geopotential meters   |
 
-Please refer to the example netCDF file, [UASDC_operatorID_airframeID_processingLevel_20230327030016Z.nc](../nc2bufr/UASDC_operatorID_airframeID_processingLevel_20230327030016Z.nc), for more information if needed. 
+
+Please refer to the example netCDF file, [UASDC_operatorID_airframeID_20230327025804Z.nc](../nc2bufr/UASDC_operatorID_airframeID_20230327025804Z.nc), for more information if needed. 
 
 # Raw UASDC CSV to netCDF example
 
@@ -54,7 +54,7 @@ There are 3 python packages required for the raw UASDC CSV to netCDF example. Th
 
 The Data Providers will upload their netCDF files to Synoptic’s S3 bucket endpoint.  This will enable a trigger based processing of the files in real time, converting them to BUFR and submitting them to the Global Broker to signal to all subscribers that the data is ready to download. **Please note this will NOT be available until February 2024**. The S3 bucket directory structure is:
 
-**operatorID/airframeID/processingLevel/YYYY/MM/**
+**operatorID/airframeID/YYYY/MM/**
 
 Please note that this directory structure must be adhered to for successful processing of the data. Below is an example of how to upload data to Synoptic’s S3 bucket. The access key id, secret access key, and bucket name are specific to Synoptic’s S3 bucket. This uses `boto3`, an Amazon managed python package. Please first install `boto3` if you haven't already:
 

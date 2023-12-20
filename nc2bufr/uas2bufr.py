@@ -20,7 +20,6 @@ import time
 import calendar
 from datetime import datetime, timedelta, date
 import math
-#from datetime import date, timedelta
 from netCDF4 import Dataset
 from eccodes import *
 import re
@@ -53,7 +52,7 @@ def get_var_or_nan(obj, var_name, postprocess_func=None):
             return postprocess_func(value)
         return value
     except KeyError:
-        print(f"Warning: {var_name} not found in dataset")
+        print(f"Warning: {var_name} not found in dataset, note that standardized variable names have been updated as of 12/20/2023")
         return np.nan
 
 def check_missing_double(uas2Dict_read, variable_name):
@@ -86,20 +85,20 @@ def read_netcdf(nc_filename):
     uas2Dict['platform_name'] = get_attr_or_nan(uas, 'platform_name', lambda x: x.replace("-", ""))
     uas2Dict['time'] = get_var_or_nan(uas, 'time')
     uas2Dict['numSubsets'] = len(uas2Dict['time'])
-    uas2Dict['longitude'] = get_var_or_nan(uas, 'longitude')
-    uas2Dict['latitude'] = get_var_or_nan(uas, 'latitude')
-    uas2Dict['airTemperature'] = get_var_or_nan(uas, 'airTemperature')
-    uas2Dict['relativeHumidity'] = get_var_or_nan(uas, 'relativeHumidity')
-    uas2Dict['mixingRatio'] = get_var_or_nan(uas, 'mixingRatio')
+    uas2Dict['longitude'] = get_var_or_nan(uas, 'lon')
+    uas2Dict['latitude'] = get_var_or_nan(uas, 'lat')
+    uas2Dict['airTemperature'] = get_var_or_nan(uas, 'air_temperature')
+    uas2Dict['relativeHumidity'] = get_var_or_nan(uas, 'relative_humidity')
+    uas2Dict['mixingRatio'] = get_var_or_nan(uas, 'humidity_mixing_ratio')
     uas2Dict['pressure'] = get_var_or_nan(uas, 'pressure')
-    uas2Dict['windSpeed'] = get_var_or_nan(uas, 'windSpeed')
-    uas2Dict['windDirection'] = get_var_or_nan(uas, 'windDirection')
-    uas2Dict['height'] = get_var_or_nan(uas, 'height')
-    uas2Dict['dewpointTemperature'] = get_var_or_nan(uas, 'dewpointTemperature')
-    uas2Dict['geopotentialHeight'] = get_var_or_nan(uas, 'geopotentialHeight')
-    uas2Dict['nonCoordinateGeopotential'] = get_var_or_nan(uas, 'nonCoordinateGeopotential')
-    uas2Dict['meanTurbulenceIntensityEddyDissipationRate'] = get_var_or_nan(uas, 'meanTurbulenceIntensityEddyDissipationRate')
-    uas2Dict['turbulentKineticEnergy'] = get_var_or_nan(uas, 'turbulentKineticEnergy')
+    uas2Dict['windSpeed'] = get_var_or_nan(uas, 'wind_speed')
+    uas2Dict['windDirection'] = get_var_or_nan(uas, 'wind_direction')
+    uas2Dict['height'] = get_var_or_nan(uas, 'altitude')
+    uas2Dict['dewpointTemperature'] = get_var_or_nan(uas, 'dew_point_temperature')
+    uas2Dict['geopotentialHeight'] = get_var_or_nan(uas, 'geopotential_height')
+    uas2Dict['nonCoordinateGeopotential'] = get_var_or_nan(uas, 'non_coordinate_geopotential')
+    uas2Dict['meanTurbulenceIntensityEddyDissipationRate'] = get_var_or_nan(uas, 'eddy_dissipation_rate')
+    uas2Dict['turbulentKineticEnergy'] = get_var_or_nan(uas, 'turbulent_kinetic_energy')
 
     ## The product time is in units
     units_time=getattr(uas.variables['time'], 'units')

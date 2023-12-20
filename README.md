@@ -12,7 +12,7 @@ Synoptic Data PBC is responsible for converting UASDC Provider netCDF data to BU
 
    [Example raw UAS to netCDF Conversion Script](raw_uas_to_netCDF/raw_csv_to_netCDF.py)
 
-   [Standardized netCDF Example File](nc2bufr/UASDC_operatorID_airframeID_processingLevel_20230327030016Z.nc)
+   [Standardized netCDF Example File](nc2bufr/UASDC_operatorID_airframeID_20230327025804Z.nc)
 
 # [Converting netCDF Data to BUFR](nc2bufr)
 

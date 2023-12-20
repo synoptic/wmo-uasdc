@@ -100,7 +100,7 @@ Convert data from file input_netcdf_filename to BUFR. The same filename will be 
 
 **Example of running a python code to convert sample netCDF file in github**  
 
-`python3 uas2bufr.py UASDC_operatorID_airframeID_processingLevel_20230327030016Z.nc`
+`python3 uas2bufr.py UASDC_operatorID_airframeID_20230327025804Z.nc`
 
 # Copyright and license
 (C) Copyright 2005- ECMWF.
