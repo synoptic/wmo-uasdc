@@ -31,7 +31,7 @@ np.set_printoptions(threshold=np.inf)
 VERBOSE = 1  # verbose error reporting
 
 def validate_filename(filename):
-    pattern = r'^UASDC_[^_]+_[^_]+_[^_]+_\d{8}\d{6}Z\.nc$'
+    pattern = r'^UASDC_[^_]+_[^_]+_\d{8}\d{6}Z\.nc$'
     if not re.match(pattern, filename):
         raise ValueError(f"Invalid filename format: {filename}")
 
