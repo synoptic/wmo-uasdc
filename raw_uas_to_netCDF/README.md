@@ -50,7 +50,7 @@ An example using `pandas` and `xarray` to convert raw UAS csv data [can be found
 
 There are 3 python packages required for the raw UASDC CSV to netCDF example. These packages are `xarray`, `pandas`, and `numpy`. They can be installed via `pip` or `conda`. Please also note that **we need to store time as seconds since EPOCH** (`1970-01-01T00:00:00`). This is due to the way netCDF files store time (int or float, not strings or datetime).   
 
-# Uploading netCDF to Synoptic S3 Examples (available Feb. 2024)
+# Uploading netCDF to Synoptic S3 Examples (available Mar. 2024)
 
 The Data Providers will upload their netCDF files to Synoptic’s S3 bucket endpoint.  This will enable a trigger based processing of the files in real time, converting them to BUFR and submitting them to the Global Broker to signal to all subscribers that the data is ready to download. **Please note this will NOT be available until February 2024**. The S3 bucket directory structure is:
 
