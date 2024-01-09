@@ -52,7 +52,7 @@ There are 3 python packages required for the raw UASDC CSV to netCDF example. Th
 
 # Uploading netCDF to Synoptic S3 Examples (available Mar. 2024)
 
-The Data Providers will upload their netCDF files to Synoptic’s S3 bucket endpoint.  This will enable a trigger based processing of the files in real time, converting them to BUFR and submitting them to the Global Broker to signal to all subscribers that the data is ready to download. **Please note this will NOT be available until February 2024**. The S3 bucket directory structure is:
+The Data Providers will upload their netCDF files to Synoptic’s S3 bucket endpoint.  This will enable a trigger based processing of the files in real time, converting them to BUFR and submitting them to the Global Broker to signal to all subscribers that the data is ready to download. **Please note this will NOT be available until March 2024**. The S3 bucket directory structure is:
 
 **operatorID/airframeID/YYYY/MM/**
 
