@@ -8,8 +8,8 @@ It's imperative that each provider contains netCDF files with correct structure,
 
 | Component        | Description                                                                                     |
 |------------------|-------------------------------------------------------------------------------------------------|
-| `operatorID`     | 3 Digit unique Operator ID assigned to each UAS data provider.                                                   |
-| `airframeID`     | 5 Digit provider assigned Airfame ID                                       |
+| `operatorID`     | 3 digit unique Operator ID assigned to each UAS data provider.                                                   |
+| `airframeID`     | 5 digit provider assigned Airfame ID                                       |
 | `YYYY`           | 4 digit Year at start of flight                                                                                |
 | `MM`             | 2 digit Month at start of flight                                                                                  |
 | `DD`             | 2 digit Day at start of flight                                                                                    |
