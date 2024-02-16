@@ -21,7 +21,7 @@ Example Filename:
 
 **UASDC_007_00001_202402152200Z.nc**
 
-Please note that **the timestamp used in the filename represents the start time of observations**. If you follow the [the raw csv to netcdf file example](raw_csv_to_netCDF.py), the script will grab timestamp 0, or, in Python, the initial timestamp of observations. 
+Please note that **the timestamp used in the filename represents the start time of observations**. If you follow the [the raw csv to netcdf file example](raw_csv_to_netCDF.py), the script will grab timestamp 0, or, in Python, the initial timestamp of observations. The operator ID must be 3 digits, even if there is a leading 0. The airframe ID can be a maximum of 5 digits (so an airframe ID of 3 digits will suffice here).
 
 ## Variable Names and Units
 
