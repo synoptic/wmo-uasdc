@@ -9,17 +9,19 @@ It's imperative that each provider contains netCDF files with correct structure,
 | Component        | Description                                                                                     |
 |------------------|-------------------------------------------------------------------------------------------------|
 | `operatorID`     | 3 Digit unique Operator ID assigned to each UAS data provider.                                                   |
-| `airframeID`     | 5 Digit provider assigned ID for each airframe used for flights                                         |
-| `YYYY`           | 4 digit at start of flight                                                                                |
-| `MM`             | 2 digit month at start of flight                                                                                  |
-| `DD`             | 2 digit day at start of flight                                                                                    |
-| `HH`             | 2 digit hour at start of flight                                                                                   |
-| `SS`             | 2 digit second at start of flight                                                                                 |
+| `airframeID`     | 5 Digit provider assigned Airfame ID                                       |
+| `YYYY`           | 4 digit Year at start of flight                                                                                |
+| `MM`             | 2 digit Month at start of flight                                                                                  |
+| `DD`             | 2 digit Day at start of flight                                                                                    |
+| `HH`             | 2 digit Hour at start of flight                                                                                   |
+| `SS`             | 2 digit Second at start of flight                                                                                 |
 | `Z`              | Zulu time. All data should be stored in UTC, following the ISO8601 open data standard.         |
 
 Example Filename:
 
 **UASDC_007_12345_202402152200Z.nc**
+
+Please note that **the timestamp used in the filename represents the start time of observations**. If you follow the [the raw csv to netcdf file example](raw_csv_to_netCDF.py), the script will grab timestamp 0, or, in Python, the initial timestamp of observations. 
 
 ## Variable Names and Units
 
