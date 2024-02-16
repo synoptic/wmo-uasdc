@@ -8,14 +8,18 @@ It's imperative that each provider contains netCDF files with correct structure,
 
 | Component        | Description                                                                                     |
 |------------------|-------------------------------------------------------------------------------------------------|
-| `operatorID`     | Unique ID assigned to each UAS data provider.                                                   |
-| `airframeID`     | Provider assigned ID for each airframe used for flights                                         |
-| `YYYY`           | Four digit year                                                                                 |
-| `MM`             | Two digit month                                                                                 |
-| `DD`             | Two digit day                                                                                   |
-| `HH`             | Two digit hour                                                                                  |
-| `SS`             | Two digit second                                                                                |
+| `operatorID`     | 3 Digit unique Operator ID assigned to each UAS data provider.                                                   |
+| `airframeID`     | 5 Digit provider assigned ID for each airframe used for flights                                         |
+| `YYYY`           | Four digit at start of flight                                                                                |
+| `MM`             | Two digit month at start of flight                                                                                  |
+| `DD`             | Two digit day at start of flight                                                                                    |
+| `HH`             | Two digit hour at start of flight                                                                                   |
+| `SS`             | Two digit second at start of flight                                                                                 |
 | `Z`              | Zulu time. All data should be stored in UTC, following the ISO8601 open data standard.         |
+
+Example Filename:
+
+**UASDC_007_12345_202402152200Z.nc**
 
 ## Variable Names and Units
 
