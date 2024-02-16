@@ -19,7 +19,7 @@ It's imperative that each provider contains netCDF files with correct structure,
 
 Example Filename:
 
-**UASDC_007_12345_202402152200Z.nc**
+**UASDC_007_00001_202402152200Z.nc**
 
 Please note that **the timestamp used in the filename represents the start time of observations**. If you follow the [the raw csv to netcdf file example](raw_csv_to_netCDF.py), the script will grab timestamp 0, or, in Python, the initial timestamp of observations. 
 
