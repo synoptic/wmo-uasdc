@@ -25,7 +25,7 @@ Please note that **the timestamp used in the filename represents the start time 
 
 ## Variable Names and Units
 
-Below are the variables that will be converted to BUFR. Please ensure the variable names and units match the table below. If you do not have all of these variables in your raw data, that is OK, the program will still run without them. Note that these variable names are consistent with BUFR official variable names.
+Below are the variables that will be converted to BUFR. Please ensure the variable names and units match the table below. If you do not have all of these variables in your raw data, that is OK, the program will still run without them. Note that these variable names are consistent with BUFR official variable names. **Variables in bold are REQUIRED variables**. Thus, if you do not have a required variable in your raw data, you must add the variable to your raw dataset and use a `_FillValue` of `nan`. 
 
 | Long Name                                          | Short Name                                          | Required Variable Name                               | Required Units        |
 |----------------------------------------------------|----------------------------------------------------|------------------------------------------------------|-----------------------|
@@ -33,15 +33,15 @@ Below are the variables that will be converted to BUFR. Please ensure the variab
 | Latitude                                           | Latitude                                           | `lat`                                           | degrees (-90 to 90)   |
 | Longitude                                          | Longitude                                          | `lon`                                          | degrees (-180 to 180) |
 | Altitude (height)                                  | Altitude                              | `altitude`                                             | Meters                |
-| Air Temperature                                    | Air Temperature                                    | `air_temperature`                                     | Kelvin                |
+| **Air Temperature**                                    | **Air Temperature**                                    | `air_temperature`                                     | Kelvin                |
 | Air Dewpoint Temperature                               | Dewpoint Temperature                               | `dew_point_temperature`                                | Kelvin                |
 | Wind Direction                                     | Wind Direction                                     | `wind_direction`                                      | degrees               |
 | Wind Speed                                         | Wind Speed                                         | `wind_speed`                                          | m/s                   |
 | Relative Humidity                                  | Relative Humidity                                  | `relative_humidity`                                   | %                     |
-| Humidity Mixing Ratio                              | Mixing Ratio                                       | `humidity_mixing_ratio`                                        | kg/kg                 |
+| **Humidity Mixing Ratio**                              | **Mixing Ratio**                                       | `humidity_mixing_ratio`                                        | kg/kg                 |
 | Turbulent Kinetic Energy                           | Turbulent Kinetic Energy                           | `turbulent_kinetic_energy`                             | m2 s-2                |
 | Mean Turbulence Intensity Eddy Dissipation Rate    | Eddy Dissipation Rate                              | `eddy_dissipation_rate`                               | m2/3 s-1              |
-| Air Pressure                                       | Air Pressure                                       | `air_pressure`                                           | Pascals               |
+| **Air Pressure**                                       | **Air Pressure**                                       | `air_pressure`                                           | Pascals               |
 | Geopotential                                       | Geopotential                                       | `non_coordinate_geopotential`                          | m2 s-2                |
 | Geopotential Height                                | Geopotential Height                                | `geopotential_height`                                 | geopotential meters   |
 
