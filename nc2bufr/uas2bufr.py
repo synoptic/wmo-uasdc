@@ -33,12 +33,11 @@ def validate_filename(filepath):
     filename = os.path.basename(filepath)
     
     # Define the pattern to match the filename against
-    pattern = r'^UASDC_[^_]+_[^_]+_\d{8}\d{6}Z\.nc$'
+    pattern = r'^UASDC_\d{3}_\d{1,5}_\d{8}\d{6}Z\.nc$'
     
     # Perform the validation check on the extracted filename
     if not re.match(pattern, filename):
-        raise ValueError(f"Invalid filename format: {filename}")
-
+        raise ValueError(f"Invalid filename format: {filename}. Please follow a convention like so - UASDC_007_00001_202402152200Z.nc")
 
 def get_attr_or_nan(obj, attr_name, postprocess_func=None):
     try:
