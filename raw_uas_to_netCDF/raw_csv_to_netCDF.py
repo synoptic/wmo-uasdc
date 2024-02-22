@@ -22,7 +22,6 @@ rename_dict = {
     'gpt_height' : 'geopotential_height',
     'wind_speed' : 'wind_speed',
     'wind_dir' : 'wind_direction',
-    'mixing_ratio' : 'humidity_mixing_ratio',
     'rel_hum' : 'relative_humidity',
     'air_press' : 'pressure',
 
@@ -49,18 +48,14 @@ ds['air_temperature'] = ds['air_temperature'] + 273.15
 # Convert Dew Point Temperature from Celsius to Kelvin
 ds['dew_point_temperature'] = ds['dew_point_temperature'] + 273.15
 
-###### Adding a REQUIRED Variable to the Dataset ######
-# Let's assume that humidity_mixing_ratio is NOT defaultly included in this dataset.
-ds = ds.drop_vars('humidity_mixing_ratio')
-
-# Let's Add a BLANK humidity_mixing_ratio variable to the dataset
-# Create a blank shape from an existing required variable
+# Adding a REQUIRED Variable to the Dataset 
+# Obtain the shape from an existing required variable
 shape = ds['air_temperature'].shape
 
 # Create an array of NaNs matching the shape of existing variable
 nan_array = np.full(shape, np.nan)
 
-# Add blank xarray Required variable
+# # Add blank xarray Required variable
 ds['humidity_mixing_ratio'] = (('obs'), nan_array) 
 
 # Adding attributes to variables in the xarray dataset

@@ -23,15 +23,19 @@ import math
 from netCDF4 import Dataset
 from eccodes import *
 import re
+import os
 np.set_printoptions(threshold=np.inf)
-
-
-
 
 VERBOSE = 1  # verbose error reporting
 
-def validate_filename(filename):
+def validate_filename(filepath):
+    # Extract the base filename from the filepath
+    filename = os.path.basename(filepath)
+    
+    # Define the pattern to match the filename against
     pattern = r'^UASDC_[^_]+_[^_]+_\d{8}\d{6}Z\.nc$'
+    
+    # Perform the validation check on the extracted filename
     if not re.match(pattern, filename):
         raise ValueError(f"Invalid filename format: {filename}")
 
@@ -57,11 +61,17 @@ def get_var_or_nan(obj, var_name, postprocess_func=None):
 
 def check_missing_double(uas2Dict_read, variable_name):
     try:
+        print(variable_name)
         # Attempt to access the data for the specified variable
-        return uas2Dict_read[variable_name][:]
+        data = uas2Dict_read[variable_name][:]
+        # Check if the data is a masked array and unmask it, filling missing values with np.nan
+        if np.ma.isMaskedArray(data):
+            return data.filled(np.nan)
+        else:
+            return data
     except Exception as e:
         # If an error occurs, return the specified code
-        return CODES_MISSING_DOUBLE 
+        return CODES_MISSING_DOUBLE
 
 def check_missing_long(uas2Dict_read, variable_name):
     try:
@@ -124,12 +134,12 @@ def read_netcdf(nc_filename):
 
 
 def uas2bufr(nc_filename):
-
     uas2Dict_read=read_netcdf(nc_filename)
+    nc_basename = os.path.basename(nc_filename)
     # UASDC_operatorID_airframeID_processingLevel_YYYYMMDDHHMMSSZ.nc
-    operatorID = nc_filename.split('_')[1]
-    airframeID = nc_filename.split('_')[2]
-    processingLevel = nc_filename.split('_')[3]
+    operatorID = nc_basename.split('_')[1]
+    airframeID = nc_basename.split('_')[2]
+    processingLevel = nc_basename.split('_')[3]
 
 
     dates =[  datetime(uas2Dict_read['syear'],
@@ -150,7 +160,7 @@ def uas2bufr(nc_filename):
 
     try:
         #encoding into BUFR
-        output_filename = f"{nc_filename.split('.')[0]}.bufr"
+        output_filename = f"{nc_basename.split('.')[0]}.bufr"
         fbufrout = open(output_filename, 'wb')
 
         ibufr=codes_bufr_new_from_samples('BUFR4')
@@ -182,13 +192,12 @@ def uas2bufr(nc_filename):
         # below will be valid when master bufr table 41 is released
         #unexpandedDescriptors =311013
         #codes_set(ibufr, 'unexpandedDescriptors', unexpandedDescriptors)
-
         codes_set(ibufr, 'wigosIdentifierSeries', CODES_MISSING_LONG)
         codes_set(ibufr, 'wigosIssuerOfIdentifier', CODES_MISSING_LONG)
         codes_set(ibufr, 'wigosIssueNumber', CODES_MISSING_LONG)
         codes_set(ibufr, 'wigosLocalIdentifierCharacter','')
         if uas2Dict_read['platform_name'] is not np.nan:
-            codes_set(ibufr, 'aircraftRegistrationNumberOrOtherIdentification',uas2Dict_read['platform_name'])
+            codes_set(ibufr, 'aircraftRegistrationNumberOrOtherIdentification',uas2Dict_read['platform_name'].replace(' ', '_'))
         codes_set(ibufr, 'observerIdentification','')
         codes_set_array(ibufr, 'year', year)
         codes_set_array(ibufr, 'month', month)
