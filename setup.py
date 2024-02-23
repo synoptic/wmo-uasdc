@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(name='WMO UASDC Utilities',
       version='1.0.0',
@@ -8,5 +8,5 @@ setup(name='WMO UASDC Utilities',
       author='James Simkins',
       author_email='james.simkins@synopticdata.com',
       url='https://github.com/synoptic/wmo-uasdc',
-      packages=['uas-utils']
+      packages=find_packages()
       )
