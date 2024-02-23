@@ -15,18 +15,14 @@ import datetime
 import traceback
 import numpy as np
 import sys
-import collections
-import time
-import calendar
 from datetime import datetime, timedelta, date
-import math
 from netCDF4 import Dataset
 from eccodes import *
 import re
 import os
 np.set_printoptions(threshold=np.inf)
+import logging
 
-VERBOSE = 1  # verbose error reporting
 
 def validate_filename(filepath):
     # Extract the base filename from the filepath
