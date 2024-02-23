@@ -32,12 +32,22 @@ def validate_filename(filepath):
     # Extract the base filename from the filepath
     filename = os.path.basename(filepath)
     
-    # Define the pattern to match the filename against
-    pattern = r'^UASDC_\d{3}_\d{1,5}_\d{8}\d{6}Z\.nc$'
+    # Check for the UASDC prefix
+    if not re.match(r'^UASDC_', filename):
+        raise ValueError(f"Filename does not start with 'UASDC_': {filename}")
     
-    # Perform the validation check on the extracted filename
-    if not re.match(pattern, filename):
-        raise ValueError(f"Invalid filename format: {filename}. Please follow a convention like so - UASDC_007_00001_202402152200Z.nc")
+    # Check for exactly 3 digits for the Operator ID
+    if not re.match(r'^UASDC_\d{3}_', filename):
+        raise ValueError(f"Filename does not have exactly 3 digits for the Operator ID: {filename}")
+    
+    # Check for 1 to 5 alphanumeric characters for the airframe ID after the second underscore
+    part_after_second_underscore = filename.split('_', 2)[2] if len(filename.split('_', 2)) > 2 else ''
+    if not re.match(r'^[a-zA-Z0-9]{1,5}_', part_after_second_underscore):
+        raise ValueError(f"Filename does not have 1 to 5 alphanumeric characters for the Airframe ID: {filename}")
+    
+    # Check for the date and time format followed by 'Z.nc'
+    if not re.match(r'^UASDC_\d{3}_[a-zA-Z0-9]{1,5}_\d{8}\d{6}Z\.nc$', filename):
+        raise ValueError(f"Filename does not end with a valid date, time format, and 'Z.nc': {filename}")
 
 def get_attr_or_nan(obj, attr_name, postprocess_func=None):
     try:
@@ -195,8 +205,6 @@ def uas2bufr(nc_filename):
         codes_set(ibufr, 'wigosIssuerOfIdentifier', CODES_MISSING_LONG)
         codes_set(ibufr, 'wigosIssueNumber', CODES_MISSING_LONG)
         codes_set(ibufr, 'wigosLocalIdentifierCharacter','')
-        if uas2Dict_read['platform_name'] is not np.nan:
-            codes_set(ibufr, 'aircraftRegistrationNumberOrOtherIdentification',uas2Dict_read['platform_name'].replace(' ', '_'))
         codes_set(ibufr, 'observerIdentification','')
         codes_set_array(ibufr, 'year', year)
         codes_set_array(ibufr, 'month', month)

@@ -73,6 +73,14 @@ ds['humidity_mixing_ratio'].attrs = {'units': 'kg/kg', 'long_name': 'Humidity Mi
 ds['relative_humidity'].attrs = {'units': '%', 'long_name': 'Relative Humidity', '_FillValue': float('nan'), 'processing_level': ''}
 ds['pressure'].attrs = {'units': 'Pa', 'long_name': 'Atmospheric Pressure', '_FillValue': float('nan'), 'processing_level': ''}
 
+# Add Global Attributes
+ds.attrs['Conventions'] = "CF-1.8, WMO-CF-1.0"
+ds.attrs['wmo__cf_profile'] = "GS_wxhive_admin"
+ds.attrs['featureType'] = "vertical_profile"
+ds.attrs['platform_name'] = "GS_weatherhive"
+ds.attrs['flight_id'] = "JBCC_1500m_VP"
+ds.attrs['processing_level'] = "raw"
+
 # Grab Initial timestamp of observations
 timestamp_dt = pd.to_datetime(ds['time'].values[0], unit='s', origin='unix')
 

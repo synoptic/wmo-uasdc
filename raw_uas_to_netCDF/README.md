@@ -48,6 +48,19 @@ Below are the variables that will be converted to BUFR. Please ensure the variab
 
 Please refer to the example netCDF file, [UASDC_operatorID_airframeID_20230327025804Z.nc](../nc2bufr/UASDC_operatorID_airframeID_20230327025804Z.nc), for more information if needed. 
 
+## Global Attributes
+
+Please add the following global attributes to your netCDF file. 
+
+| Global Attribute   | Example Value          |
+|-------------------|------------------------|
+| `Conventions`     | `CF-1.8, WMO-CF-1.0`   |
+| `wmo__cf_profile` | `GS_wxhive_admin`      |
+| `featureType`     | `vertical_profile`     |
+| `platform_name`   | `GS_weatherhive`       |
+| `flight_id`       | `JBCC_1500m_VP`        |
+| `processing_level`| `raw`                  |
+
 # Raw UASDC CSV to netCDF example
 
 An example using `pandas` and `xarray` to convert raw UAS csv data [can be found here](raw_csv_to_netCDF.py). The raw csv file being used for this script [can be found here](raw_uasdc.csv)
