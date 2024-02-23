@@ -1,6 +1,7 @@
 # WMO UASDC 
 
 This is the central repository for the [World Meteorological Organization Uncrewed Aircraft System Demonstration Campaign project](https://community.wmo.int/en/uas-demonstration). In this repository, you'll find a collection of code, example files, and documentation related to the campaign. 
+Please review the [UAS-DC Data Policy](https://community.wmo.int/en/uas-demonstration/data-policy) for additional information and definitions.
 
 ### The UASDC Pipeline
 
