@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages
 
-setup(name='WMO UASDC Conversion Utilities',
+setup(name='WMO UASDC',
       version='1.0.0',
       description='Utilities for WMO UASDC project',
       author='James Simkins',
