@@ -8,5 +8,5 @@ setup(name='WMO UASDC',
       author='James Simkins',
       author_email='james.simkins@synopticdata.com',
       url='https://github.com/synoptic/wmo-uasdc',
-      packages=['wmo_uasdc'],
+      packages=['uas_utils'],
       )

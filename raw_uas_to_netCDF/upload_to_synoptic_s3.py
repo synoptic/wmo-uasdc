@@ -5,7 +5,7 @@ aws_access_key_id = ""
 # secret access key sent separately
 aws_secret_access_key = ""
 
-bucket_name = "wmo_uasdc-synoptic-bucket"
+bucket_name = "uas_utils-synoptic-bucket"
 
 local_filepath = "UASDC_operatorID_airframeID_processingLevel_20230327030016Z.nc"  
 s3_filepath = "operatorID/airframeID/processingLevel/YYYY/MM/operatorID_airframeID_processingLevel_YYYYMMDDHHMMSSZ.nc"
