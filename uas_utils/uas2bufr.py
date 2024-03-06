@@ -138,7 +138,7 @@ def read_netcdf(nc_filename):
     return uas2Dict
 
 
-def uas2bufr(nc_filename):
+def uas2bufr(nc_filename, bufr_filename=None):
     uas2Dict_read=read_netcdf(nc_filename)
     nc_basename = os.path.basename(nc_filename)
     # UASDC_operatorID_airframeID_processingLevel_YYYYMMDDHHMMSSZ.nc
@@ -154,86 +154,83 @@ def uas2bufr(nc_filename):
                        uas2Dict_read['smin'],
                        uas2Dict_read['ssec'])+timedelta(seconds=float(s)) for s in uas2Dict_read['time']]
 
+    year = [d.year for d in dates]
+    month = [d.month for d in dates]
+    day = [d.day for d in dates]
+    hour = [d.hour for d in dates]
+    minute = [d.minute for d in dates]
+    # second=[ (d.second+ d.microsecond/1.0e6)  for d in dates]
+    second = [d.second for d in dates]
 
-    year=[ d.year  for d in dates]
-    month=[ d.month  for d in dates]
-    day=[ d.day  for d in dates]
-    hour=[ d.hour  for d in dates]
-    minute=[ d.minute  for d in dates]
-    #second=[ (d.second+ d.microsecond/1.0e6)  for d in dates]
-    second=[ d.second for d in dates]
+    #encoding into BUFR
+    output_filename = f"{nc_basename.split('.')[0]}.bufr" if bufr_filename is None else bufr_filename
+    fbufrout = open(output_filename, 'wb')
 
-    try:
-        #encoding into BUFR
-        output_filename = f"{nc_basename.split('.')[0]}.bufr"
-        fbufrout = open(output_filename, 'wb')
+    ibufr=codes_bufr_new_from_samples('BUFR4')
+    codes_set(ibufr, 'masterTableNumber', 0)
+    codes_set(ibufr, 'bufrHeaderSubCentre', 0)
+    codes_set(ibufr, 'bufrHeaderCentre', 98)
+    codes_set(ibufr, 'updateSequenceNumber', 0)
+    codes_set(ibufr, 'dataCategory', 2)
+    codes_set(ibufr, 'internationalDataSubCategory', 255)
+    codes_set(ibufr, 'masterTablesVersionNumber', 39)
+    #codes_set(ibufr, 'masterTablesVersionNumber', 41)
+    codes_set(ibufr, 'localTablesVersionNumber', 0)
+    codes_set(ibufr, 'typicalYear',int(year[0]))
+    codes_set(ibufr, 'typicalMonth',int(month[0]))
+    codes_set(ibufr, 'typicalDay',int(day[0]))
+    codes_set(ibufr, 'typicalHour',int(hour[0]))
+    codes_set(ibufr, 'typicalMinute',int(minute[0]))
+    codes_set(ibufr, 'typicalSecond',int(second[0]))
 
-        ibufr=codes_bufr_new_from_samples('BUFR4')
-        codes_set(ibufr, 'masterTableNumber', 0)
-        codes_set(ibufr, 'bufrHeaderSubCentre', 0)
-        codes_set(ibufr, 'bufrHeaderCentre', 98)
-        codes_set(ibufr, 'updateSequenceNumber', 0)
-        codes_set(ibufr, 'dataCategory', 2)
-        codes_set(ibufr, 'internationalDataSubCategory', 255)
-        codes_set(ibufr, 'masterTablesVersionNumber', 39)
-        #codes_set(ibufr, 'masterTablesVersionNumber', 41)
-        codes_set(ibufr, 'localTablesVersionNumber', 0)
-        codes_set(ibufr, 'typicalYear',int(year[0]))
-        codes_set(ibufr, 'typicalMonth',int(month[0]))
-        codes_set(ibufr, 'typicalDay',int(day[0]))
-        codes_set(ibufr, 'typicalHour',int(hour[0]))
-        codes_set(ibufr, 'typicalMinute',int(minute[0]))
-        codes_set(ibufr, 'typicalSecond',int(second[0]))
+    codes_set(ibufr, 'observedData', 1)
 
-        codes_set(ibufr, 'observedData', 1)
+    codes_set(ibufr, 'numberOfSubsets', uas2Dict_read['numSubsets'])
 
-        codes_set(ibufr, 'numberOfSubsets', uas2Dict_read['numSubsets'])
+    codes_set(ibufr, 'compressedData', 1)
+    unexpandedDescriptors =[301150,12103,7004,10003,7002,7009,1008,1095,301011,301013,301021,1013,8009,7010,33003,11001,11002,12101,2170,201135,202130,13003,202000,201000,201144,202133,13002,202000,201000,11073,11075]
 
-        codes_set(ibufr, 'compressedData', 1)
-        unexpandedDescriptors =[301150,12103,7004,10003,7002,7009,1008,1095,301011,301013,301021,1013,8009,7010,33003,11001,11002,12101,2170,201135,202130,13003,202000,201000,201144,202133,13002,202000,201000,11073,11075]
+    codes_set_array(ibufr, 'unexpandedDescriptors', unexpandedDescriptors)
 
-        codes_set_array(ibufr, 'unexpandedDescriptors', unexpandedDescriptors)
+    # below will be valid when master bufr table 41 is released
+    #unexpandedDescriptors =311013
+    #codes_set(ibufr, 'unexpandedDescriptors', unexpandedDescriptors)
+    codes_set(ibufr, 'wigosIdentifierSeries', CODES_MISSING_LONG)
+    codes_set(ibufr, 'wigosIssuerOfIdentifier', CODES_MISSING_LONG)
+    codes_set(ibufr, 'wigosIssueNumber', CODES_MISSING_LONG)
+    codes_set(ibufr, 'wigosLocalIdentifierCharacter','')
+    codes_set(ibufr, 'observerIdentification','')
+    codes_set_array(ibufr, 'year', year)
+    codes_set_array(ibufr, 'month', month)
+    codes_set_array(ibufr, 'day', day)
+    codes_set_array(ibufr, 'hour', hour)
+    codes_set_array(ibufr, 'minute', minute)
+    codes_set_array(ibufr, 'second',second)
+    codes_set_array(ibufr, 'longitude', uas2Dict_read['longitude'][:])
+    codes_set_array(ibufr, 'latitude', uas2Dict_read['latitude'][:])
+    codes_set(ibufr, 'movingObservingPlatformSpeed', CODES_MISSING_LONG)
+    codes_set(ibufr, 'detailedPhaseOfFlight', CODES_MISSING_LONG)
+    codes_set(ibufr, 'qualityInformation', CODES_MISSING_LONG)
+    codes_set_array(ibufr, 'height', uas2Dict_read['height'][:])
+    codes_set_array(ibufr, 'windDirection', check_missing_double(uas2Dict_read,'windDirection'))
+    codes_set_array(ibufr, 'windSpeed', check_missing_double(uas2Dict_read,'windSpeed'))
+    codes_set_array(ibufr, 'airTemperature', check_missing_double(uas2Dict_read,'airTemperature'))
+    codes_set(ibufr, 'aircraftHumiditySensors', CODES_MISSING_LONG)
+    codes_set_array(ibufr, 'relativeHumidity', check_missing_double(uas2Dict_read,'relativeHumidity'))
+    codes_set_array(ibufr, 'mixingRatio', check_missing_double(uas2Dict_read,'mixingRatio'))
+    codes_set(ibufr, 'turbulentKineticEnergy', check_missing_double(uas2Dict_read,'turbulentKineticEnergy'))
+    codes_set(ibufr, 'meanTurbulenceIntensityEddyDissipationRate', check_missing_double(uas2Dict_read,'meanTurbulenceIntensityEddyDissipationRate'))
+    codes_set_array(ibufr, 'geopotentialHeight', check_missing_double(uas2Dict_read,'geopotentialHeight'))
+    codes_set_array(ibufr, 'dewpointTemperature', check_missing_double(uas2Dict_read,'dewpointTemperature'))
+    codes_set_array(ibufr, 'pressure', check_missing_double(uas2Dict_read,'pressure'))
+    codes_set_array(ibufr, 'nonCoordinateGeopotential', check_missing_double(uas2Dict_read,'nonCoordinateGeopotential'))
 
-        # below will be valid when master bufr table 41 is released
-        #unexpandedDescriptors =311013
-        #codes_set(ibufr, 'unexpandedDescriptors', unexpandedDescriptors)
-        codes_set(ibufr, 'wigosIdentifierSeries', CODES_MISSING_LONG)
-        codes_set(ibufr, 'wigosIssuerOfIdentifier', CODES_MISSING_LONG)
-        codes_set(ibufr, 'wigosIssueNumber', CODES_MISSING_LONG)
-        codes_set(ibufr, 'wigosLocalIdentifierCharacter','')
-        codes_set(ibufr, 'observerIdentification','')
-        codes_set_array(ibufr, 'year', year)
-        codes_set_array(ibufr, 'month', month)
-        codes_set_array(ibufr, 'day', day)
-        codes_set_array(ibufr, 'hour', hour)
-        codes_set_array(ibufr, 'minute', minute)
-        codes_set_array(ibufr, 'second',second)
-        codes_set_array(ibufr, 'longitude', uas2Dict_read['longitude'][:])
-        codes_set_array(ibufr, 'latitude', uas2Dict_read['latitude'][:])
-        codes_set(ibufr, 'movingObservingPlatformSpeed', CODES_MISSING_LONG)
-        codes_set(ibufr, 'detailedPhaseOfFlight', CODES_MISSING_LONG)
-        codes_set(ibufr, 'qualityInformation', CODES_MISSING_LONG)
-        codes_set_array(ibufr, 'height', uas2Dict_read['height'][:])
-        codes_set_array(ibufr, 'windDirection', check_missing_double(uas2Dict_read,'windDirection'))
-        codes_set_array(ibufr, 'windSpeed', check_missing_double(uas2Dict_read,'windSpeed'))
-        codes_set_array(ibufr, 'airTemperature', check_missing_double(uas2Dict_read,'airTemperature'))
-        codes_set(ibufr, 'aircraftHumiditySensors', CODES_MISSING_LONG)
-        codes_set_array(ibufr, 'relativeHumidity', check_missing_double(uas2Dict_read,'relativeHumidity'))
-        codes_set_array(ibufr, 'mixingRatio', check_missing_double(uas2Dict_read,'mixingRatio'))
-        codes_set(ibufr, 'turbulentKineticEnergy', check_missing_double(uas2Dict_read,'turbulentKineticEnergy'))
-        codes_set(ibufr, 'meanTurbulenceIntensityEddyDissipationRate', check_missing_double(uas2Dict_read,'meanTurbulenceIntensityEddyDissipationRate'))
-        codes_set_array(ibufr, 'geopotentialHeight', check_missing_double(uas2Dict_read,'geopotentialHeight'))
-        codes_set_array(ibufr, 'dewpointTemperature', check_missing_double(uas2Dict_read,'dewpointTemperature'))
-        codes_set_array(ibufr, 'pressure', check_missing_double(uas2Dict_read,'pressure'))
-        codes_set_array(ibufr, 'nonCoordinateGeopotential', check_missing_double(uas2Dict_read,'nonCoordinateGeopotential'))
+    codes_set(ibufr, 'pack', 1)
+    codes_write(ibufr, fbufrout)
 
-        codes_set(ibufr, 'pack', 1)
-        codes_write(ibufr, fbufrout)
-
-        codes_release(ibufr)
-        fbufrout.close()
-    except Exception as e:
-        print(f'Failed to convert provided netCDF file to BUFR: {e}')
+    codes_release(ibufr)
+    fbufrout.close()
+    return output_filename
 
 
 def main():
