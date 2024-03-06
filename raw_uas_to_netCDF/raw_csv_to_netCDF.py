@@ -49,14 +49,7 @@ ds['air_temperature'] = ds['air_temperature'] + 273.15
 ds['dew_point_temperature'] = ds['dew_point_temperature'] + 273.15
 
 # Adding a REQUIRED Variable to the Dataset 
-# Obtain the shape from an existing required variable
-shape = ds['air_temperature'].shape
-
-# Create an array of NaNs matching the shape of existing variable
-nan_array = np.full(shape, np.nan)
-
-# # Add blank xarray Required variable
-ds['humidity_mixing_ratio'] = (('obs'), nan_array) 
+ds['humidity_mixing_ratio'] = np.nan
 
 # Adding attributes to variables in the xarray dataset
 ds['time'].attrs = {'units': 'seconds since 1970-01-01T00:00:00', 'long_name': 'Time', '_FillValue': float('nan'), 'processing_level': ''}
