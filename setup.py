@@ -2,11 +2,11 @@
 
 from setuptools import setup, find_packages
 
-setup(name='wmo-uasdc',
+setup(name='WMO UASDC',
       version='1.0.0',
       description='Utilities for WMO UASDC project',
       author='James Simkins',
       author_email='james.simkins@synopticdata.com',
       url='https://github.com/synoptic/wmo-uasdc',
-      packages=['wmo-uasdc'],
+      packages=['wmo_uasdc'],
       )
