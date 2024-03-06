@@ -8,5 +8,5 @@ setup(name='uas-utils',
       author='James Simkins',
       author_email='james.simkins@synopticdata.com',
       url='https://github.com/synoptic/wmo-uasdc',
-      packages=['uas-utils'],
+      packages=find_packages(include=['uas_utils', 'uas_utils.*']),
       )
