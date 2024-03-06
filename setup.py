@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages
 
-setup(name='wmo-uasdc',
+setup(name='uas-utils',
       version='1.0.0',
       description='Utilities for WMO UASDC project',
       author='James Simkins',
