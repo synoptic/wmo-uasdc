@@ -138,6 +138,14 @@ def read_netcdf(nc_filename):
     return uas2Dict
 
 
+def set_codes(ibufr, key, data):
+    # If data is missing, it cannot be set with codes_set_array
+    if data is CODES_MISSING_DOUBLE:
+        codes_set(ibufr, key, CODES_MISSING_DOUBLE)
+    else:
+        codes_set_array(ibufr, key, data)
+
+
 def uas2bufr(nc_filename, bufr_filename=None):
     uas2Dict_read=read_netcdf(nc_filename)
     nc_basename = os.path.basename(nc_filename)
@@ -200,30 +208,29 @@ def uas2bufr(nc_filename, bufr_filename=None):
     codes_set(ibufr, 'wigosIssueNumber', CODES_MISSING_LONG)
     codes_set(ibufr, 'wigosLocalIdentifierCharacter','')
     codes_set(ibufr, 'observerIdentification','')
-    codes_set_array(ibufr, 'year', year)
-    codes_set_array(ibufr, 'month', month)
-    codes_set_array(ibufr, 'day', day)
-    codes_set_array(ibufr, 'hour', hour)
-    codes_set_array(ibufr, 'minute', minute)
-    codes_set_array(ibufr, 'second',second)
-    codes_set_array(ibufr, 'longitude', uas2Dict_read['longitude'][:])
-    codes_set_array(ibufr, 'latitude', uas2Dict_read['latitude'][:])
-    codes_set(ibufr, 'movingObservingPlatformSpeed', CODES_MISSING_LONG)
-    codes_set(ibufr, 'detailedPhaseOfFlight', CODES_MISSING_LONG)
-    codes_set(ibufr, 'qualityInformation', CODES_MISSING_LONG)
-    codes_set_array(ibufr, 'height', uas2Dict_read['height'][:])
-    codes_set_array(ibufr, 'windDirection', check_missing_double(uas2Dict_read,'windDirection'))
-    codes_set_array(ibufr, 'windSpeed', check_missing_double(uas2Dict_read,'windSpeed'))
-    codes_set_array(ibufr, 'airTemperature', check_missing_double(uas2Dict_read,'airTemperature'))
-    codes_set(ibufr, 'aircraftHumiditySensors', CODES_MISSING_LONG)
-    codes_set_array(ibufr, 'relativeHumidity', check_missing_double(uas2Dict_read,'relativeHumidity'))
-    codes_set_array(ibufr, 'mixingRatio', check_missing_double(uas2Dict_read,'mixingRatio'))
-    codes_set(ibufr, 'turbulentKineticEnergy', check_missing_double(uas2Dict_read,'turbulentKineticEnergy'))
-    codes_set(ibufr, 'meanTurbulenceIntensityEddyDissipationRate', check_missing_double(uas2Dict_read,'meanTurbulenceIntensityEddyDissipationRate'))
-    codes_set_array(ibufr, 'geopotentialHeight', check_missing_double(uas2Dict_read,'geopotentialHeight'))
-    codes_set_array(ibufr, 'dewpointTemperature', check_missing_double(uas2Dict_read,'dewpointTemperature'))
-    codes_set_array(ibufr, 'pressure', check_missing_double(uas2Dict_read,'pressure'))
-    codes_set_array(ibufr, 'nonCoordinateGeopotential', check_missing_double(uas2Dict_read,'nonCoordinateGeopotential'))
+
+    set_codes(ibufr, 'year', year)
+    set_codes(ibufr, 'month', month)
+    set_codes(ibufr, 'day', day)
+    set_codes(ibufr, 'hour', hour)
+    set_codes(ibufr, 'minute', minute)
+    set_codes(ibufr, 'second', second)
+    set_codes(ibufr, 'longitude', uas2Dict_read['longitude'][:])
+    set_codes(ibufr, 'latitude', uas2Dict_read['latitude'][:])
+    set_codes(ibufr, 'height', uas2Dict_read['height'][:])
+
+    set_codes(ibufr, 'windDirection', check_missing_double(uas2Dict_read, 'windDirection'))
+    set_codes(ibufr, 'windSpeed', check_missing_double(uas2Dict_read, 'windSpeed'))
+    set_codes(ibufr, 'airTemperature', check_missing_double(uas2Dict_read, 'airTemperature'))
+    set_codes(ibufr, 'relativeHumidity', check_missing_double(uas2Dict_read, 'relativeHumidity'))
+    set_codes(ibufr, 'mixingRatio', check_missing_double(uas2Dict_read, 'mixingRatio'))
+    set_codes(ibufr, 'turbulentKineticEnergy', check_missing_double(uas2Dict_read, 'turbulentKineticEnergy'))
+    set_codes(ibufr, 'meanTurbulenceIntensityEddyDissipationRate',
+              check_missing_double(uas2Dict_read, 'meanTurbulenceIntensityEddyDissipationRate'))
+    set_codes(ibufr, 'geopotentialHeight', check_missing_double(uas2Dict_read, 'geopotentialHeight'))
+    set_codes(ibufr, 'dewpointTemperature', check_missing_double(uas2Dict_read, 'dewpointTemperature'))
+    set_codes(ibufr, 'pressure', check_missing_double(uas2Dict_read, 'pressure'))
+    set_codes(ibufr, 'nonCoordinateGeopotential', check_missing_double(uas2Dict_read, 'nonCoordinateGeopotential'))
 
     codes_set(ibufr, 'pack', 1)
     codes_write(ibufr, fbufrout)
