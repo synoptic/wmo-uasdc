@@ -85,4 +85,4 @@ or
 
 Please do not redistribute these keys to others outside of the project. Please note the structure of the s3_filepath object in the Python script below, as this will dictate precisely where the file sits in the S3 bucket. 
 
-The example script on how to upload an individual file [can be found here](upload_to_synoptic_s3.py)
+The example script on how to upload an individual file [can be found here](upload_to_s3.py)
