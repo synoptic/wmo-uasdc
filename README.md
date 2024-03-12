@@ -31,7 +31,7 @@ being one that we will provide an example for.
         * [AWS CLI](https://aws.amazon.com/cli/)
         * [FileZilla Pro](https://filezillapro.com/docs/v3/cloud/configure-filezilla-pro-to-connect-to-s3/)
         * [Cyberduck](https://cyberduck.io/)
-        * [S3 Browser](https://s3browser.com/)
+        * [S3 Browser (Windows Only)](https://s3browser.com/)
         * others exist
 * AWS Access Key ID and Secret Access Key
     * These credentials will be distributed upon acknowledgment of the UASDC Data Policy.
