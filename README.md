@@ -23,12 +23,16 @@ being one that we will provide an example for.
 
 * A method to upload files to the Entry S3 bucket.
     * This can be done using the AWS CLI, the AWS SDK, or any of the other options listed below.
+        
+        * [AWS SDK for Python (Boto3)](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
+        * [AWS Toolkit (S3 Explorer GUI for your IDE)](https://docs.aws.amazon.com/sdkref/latest/guide/support-maint-idetoolkits.html)
+          * [Visual Studio Code](https://aws.amazon.com/visualstudiocode/)
+          * [IntelliJ/PyCharm](https://aws.amazon.com/intellij/?pg=developertools)
         * [AWS CLI](https://aws.amazon.com/cli/)
-        * [Boto3 (python)](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
         * [FileZilla Pro](https://filezillapro.com/docs/v3/cloud/configure-filezilla-pro-to-connect-to-s3/)
         * [Cyberduck](https://cyberduck.io/)
         * [S3 Browser](https://s3browser.com/)
-        * other options may exist
+        * others exist
 * AWS Access Key ID and Secret Access Key
     * These credentials will be distributed upon acknowledgment of the UASDC Data Policy.
         * Please do not redistribute these keys to others outside the project.
