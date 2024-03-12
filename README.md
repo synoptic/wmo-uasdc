@@ -25,7 +25,7 @@ being one that we will provide an example for.
     * This can be done using the AWS CLI, the AWS SDK, or any of the other options listed below.
         * [AWS CLI](https://aws.amazon.com/cli/)
         * [Boto3 (python)](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
-        * [FileZilla](https://filezilla-project.org/)
+        * [FileZilla Pro](https://filezillapro.com/docs/v3/cloud/configure-filezilla-pro-to-connect-to-s3/)
         * [Cyberduck](https://cyberduck.io/)
         * [S3 Browser](https://s3browser.com/)
         * other options may exist
