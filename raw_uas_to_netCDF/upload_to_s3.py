@@ -14,6 +14,8 @@ bucket_name = "provided-bucket-name"
 local_filepath = "../nc2bufr/UASDC_operatorID_airframeID_20230327025804Z.nc"
 # appropriate prefix syntax for storage in s3 entry bucket
 s3_filepath = "operatorID/airframeID/processingLevel/YYYY/MM/operatorID_airframeID_20230327025804Z.nc"
+# or just operatorID for the prefix, ie
+# s3_filepath = "operatorID/operatorID_airframeID_20230327025804Z.nc"
 
 # Create an S3 client
 s3 = boto3.client('s3', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
