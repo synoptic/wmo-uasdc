@@ -106,10 +106,11 @@ def read_netcdf(nc_filename):
     uas2Dict['relativeHumidity'] = get_var_or_nan(uas, 'relative_humidity')
     uas2Dict['mixingRatio'] = get_var_or_nan(uas, 'humidity_mixing_ratio')
     uas2Dict['pressure'] = get_var_or_nan(uas, 'air_pressure')
-    if np.isnan(uas2Dict['pressure']):
+    if np.isnan(uas2Dict['pressure']).all() == True:
         uas2Dict['pressure'] = get_var_or_nan(uas, 'pressure')
         if np.isnan(uas2Dict['pressure']).all() == False:
             print("Warning! The variable name for pressure has been changed to air_pressure. Please adjust the name in your netCDF file!")
+
     uas2Dict['windSpeed'] = get_var_or_nan(uas, 'wind_speed')
     uas2Dict['windDirection'] = get_var_or_nan(uas, 'wind_direction')
     uas2Dict['height'] = get_var_or_nan(uas, 'altitude')

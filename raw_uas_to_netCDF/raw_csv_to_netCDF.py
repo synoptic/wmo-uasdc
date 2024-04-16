@@ -23,7 +23,7 @@ rename_dict = {
     'wind_speed' : 'wind_speed',
     'wind_dir' : 'wind_direction',
     'rel_hum' : 'relative_humidity',
-    'air_press' : 'pressure',
+    'air_press' : 'air_pressure',
 
 }
 
@@ -64,7 +64,7 @@ ds['wind_speed'].attrs = {'units': 'm/s', 'long_name': 'Wind Speed', '_FillValue
 ds['wind_direction'].attrs = {'units': 'degrees', 'long_name': 'Wind Direction', '_FillValue': float('nan'), 'processing_level': ''}
 ds['humidity_mixing_ratio'].attrs = {'units': 'kg/kg', 'long_name': 'Humidity Mixing Ratio', '_FillValue': float('nan'), 'processing_level': ''}
 ds['relative_humidity'].attrs = {'units': '%', 'long_name': 'Relative Humidity', '_FillValue': float('nan'), 'processing_level': ''}
-ds['pressure'].attrs = {'units': 'Pa', 'long_name': 'Atmospheric Pressure', '_FillValue': float('nan'), 'processing_level': ''}
+ds['air_pressure'].attrs = {'units': 'Pa', 'long_name': 'Atmospheric Pressure', '_FillValue': float('nan'), 'processing_level': ''}
 
 # Add Global Attributes
 ds.attrs['Conventions'] = "CF-1.8, WMO-CF-1.0"
