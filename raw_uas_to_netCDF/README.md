@@ -32,7 +32,7 @@ Below are the variables that will be converted to BUFR. Please ensure the variab
 | Time                                               | Time                                               | `time`                                               | Seconds since EPOCH (1970-01-01T00:00:00) | 
 | Latitude                                           | Latitude                                           | `lat`                                           | degrees (-90 to 90)   |
 | Longitude                                          | Longitude                                          | `lon`                                          | degrees (-180 to 180) |
-| Altitude (height)                                  | Altitude                              | `altitude`                                             | Meters                |
+| Altitude (height)                                  | Altitude                              | `altitude`                                             | Meters Above Sea Level               |
 | **Air Temperature**                                    | **Air Temperature**                                    | `air_temperature`                                     | Kelvin                |
 | Air Dewpoint Temperature                               | Dewpoint Temperature                               | `dew_point_temperature`                                | Kelvin                |
 | Wind Direction                                     | Wind Direction                                     | `wind_direction`                                      | degrees               |
@@ -50,16 +50,19 @@ Please refer to the example netCDF file, [UASDC_operatorID_airframeID_2023032702
 
 ## Global Attributes
 
-Please add the following global attributes to your netCDF file. 
+Please add the following global attributes to your netCDF file. The first 3 global attributes should be the same for all UASDC files. The platform_name (should be the same as airframeID used in the filename), flight_id, site_terrain_elevation_height, and processing_level global attributes should be assigned individually by each UAS operator. The values given below for these 4 attributes are just examples and should be updated by the UAS Operator.
 
 | Global Attribute   | Example Value          |
 |-------------------|------------------------|
 | `Conventions`     | `CF-1.8, WMO-CF-1.0`   |
-| `wmo__cf_profile` | `GS_wxhive_admin`      |
-| `featureType`     | `vertical_profile`     |
-| `platform_name`   | `GS_weatherhive`       |
+| `wmo__cf_profile` | `FM 303-2024`      |
+| `featureType`     | `trajectory`     |
+| `platform_name`   | `airframeID`       |
 | `flight_id`       | `JBCC_1500m_VP`        |
+| `site_terrain_elevation_height`| `3200m` | 
 | `processing_level`| `raw`                  |
+
+
 
 # Raw UASDC CSV to netCDF example
 
