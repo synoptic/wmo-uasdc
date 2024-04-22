@@ -23,6 +23,7 @@ being one that we will provide an example for.
 
 * A method to upload files to the Entry S3 bucket.
     * This can be done using the AWS CLI, the AWS SDK, or any of the other options listed below.
+        
         * [AWS SDK for Python (Boto3)](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
         * [AWS Toolkit (S3 Explorer GUI for your IDE)](https://docs.aws.amazon.com/sdkref/latest/guide/support-maint-idetoolkits.html)
           * [Visual Studio Code](https://aws.amazon.com/visualstudiocode/)
@@ -44,24 +45,28 @@ being one that we will provide an example for.
 
 1. Data Providers will upload their netCDF files to the Entry S3 bucket.
 2. The data will be automatically converted to BUFR, transferred to the Product/output S3 Bucket and a notification
-   message will be submitted to the WIS2 Global Broker. Both the original netCDF file and the generated BUFR file will be deposited, and available in the Product/output bucket for the duration of campaign.
-3. Note that since the data are 'recommended' rather than 'core' data, the data will not be made available to all
-   WIS2 users.
-4. netCDF files that are unable to be converted to BUFR will not be transferred to the Product/output S3 bucket.
-5. A status file will be generated and placed under the _processing_results/_ prefix of the Entry/input S3 bucket.
+   message
+   will be
+   submitted to the WIS2 Global Broker. Both the original netCDF file and the generated BUFR file will be deposited, and
+   available in the Product/output bucket for the duration of campaign.
+    3. Note that since the data are 'recommended' rather than 'core' data, the data will not be made available to all
+       WIS2 users.
+    4. netCDF files that are unable to be converted to BUFR will not be transferred to the Product/output S3 bucket.
+4. A status file will be generated and placed under the _processing_results/_ prefix of the Entry/input S3 bucket.
    Additionally, the generated status file will follow the naming convention of the original netCDF file and a suffix
-   indicating the processing status of the file, ie '*__success.txt' or '*__error.txt'.
-6. The status file will contain a message indicating the success or error encountered during the processing of the
-   original netCDF file and thus helpful for troubleshooting.
+   indicating the processing status of the file, 
+ie '*__success.txt' or '*__error.txt'.
+    5. The status file will contain a message indicating the success or error encountered during the processing of the
+       original netCDF file and thus helpful for troubleshooting.
 
-   ```text
-   For example, a netCDF file uploaded to the entry bucket with the following name:
-   UASDC_operatorID_airframeID_20230327025804Z.nc
-   will have one of the following status files generated in the entry bucket after processing:
+```text
+For example, a netCDF file uploaded to the entry bucket with the following name:
+UASDC_operatorID_airframeID_20230327025804Z.nc
+will have one of the following status files generated in the entry bucket after processing:
 
-   processing_results/operatorID/airframeID/UASDC_operatorID_airframeID_20230327025804Z__success.txt
-   processing_results/operatorID/airframeID/UASDC_operatorID_airframeID_20230327025804Z__error.txt
-   ```
+processing_results/operatorID/airframeID/UASDC_operatorID_airframeID_20230327025804Z__success.txt
+processing_results/operatorID/airframeID/UASDC_operatorID_airframeID_20230327025804Z__error.txt
+```
 
 #### Usage Notes
 
@@ -70,7 +75,8 @@ being one that we will provide an example for.
 * Data in the Entry S3 bucket will be automatically deleted after 7 days.
 * Successfully converted files will be placed in the Product S3 bucket and will not be deleted.
 * Files uploaded with additional directories in their file name will still be split out according to the basename of the
-  file.  _ie operatorID/airframeID/YYYY/MM/*filename*._
+  file.
+  _ie operatorID/airframeID/YYYY/MM/*filename*._
 * A basic example of how to utilize the credentials, upload a file to an S3 bucket, and list files in the bucket is
   provided in the [upload_to_s3.py](raw_uas_to_netCDF/upload_to_s3.py) file.
 
