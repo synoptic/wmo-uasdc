@@ -202,7 +202,6 @@ def uas2bufr(nc_filename, bufr_filename=None):
 
     codes_set(ibufr, 'compressedData', 1)
     unexpandedDescriptors =[301150,12103,7004,10003,7002,7009,1008,1095,301011,301013,301021,1013,8009,7010,33003,11001,11002,12101,2170,201135,202130,13003,202000,201000,201144,202133,13002,202000,201000,11073,11075]
-
     codes_set_array(ibufr, 'unexpandedDescriptors', unexpandedDescriptors)
 
     # below will be valid when master bufr table 41 is released
@@ -213,6 +212,10 @@ def uas2bufr(nc_filename, bufr_filename=None):
     codes_set(ibufr, 'wigosIssueNumber', CODES_MISSING_LONG)
     codes_set(ibufr, 'wigosLocalIdentifierCharacter','')
     codes_set(ibufr, 'observerIdentification','')
+    # maximum 8 characters
+    codes_set(ibufr, 'aircraftRegistrationNumberOrOtherIdentification', str(airframeID)[0:8])
+    # maximum 4 characters
+    codes_set(ibufr, 'observerIdentification', str(operatorID)[0:4])
 
     set_codes(ibufr, 'year', year)
     set_codes(ibufr, 'month', month)
