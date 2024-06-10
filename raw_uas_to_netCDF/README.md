@@ -60,9 +60,8 @@ Please add the following global attributes to your netCDF file. The first 3 glob
 | `platform_name`   | `airframeID`       |
 | `flight_id`       | `JBCC_1500m_VP`        |
 | `site_terrain_elevation_height`| `3200m` | 
-| `processing_level`| `raw`                  |
-
-
+| `processing_level`| ` 'a1' or 'b1' or 'c1'`     |
+[Link for processing levels descriptions](https://www.arm.gov/guidance/datause/formatting-and-file-naming-protocols)
 
 # Raw UASDC CSV to netCDF example
 
